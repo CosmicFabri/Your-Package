@@ -9,7 +9,6 @@
     <div id="navigation-bar">
       <router-link to="/">Home</router-link>
       <router-link to="/send-package" id="link">Send Package</router-link>
-      <router-link to="/view-parcel" id="link">View Parcel Services</router-link>
     </div>
 
     <!-- Space for other pages to use -->

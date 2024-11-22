@@ -31,15 +31,15 @@
         <div class="grid">
           <div class="col">
             <label for="width">Width (cm):</label>
-            <input type="number" id="width">
+            <input type="number" id="width" required>
           </div>
           <div class="col">
             <label for="height">Height (cm):</label>
-            <input type="number" id="height">
+            <input type="number" id="height" required>
           </div>
           <div class="col">
             <label for="depth">Depth (cm):</label>
-            <input type="number" id="depth">
+            <input type="number" id="depth" required>
           </div>
         </div>
       </div>
@@ -54,7 +54,7 @@
         <div class="grid">
           <div class="col">
             <label for="weight">Weight (kg):</label>
-            <input type="number" id="weight">
+            <input type="number" id="weight" required>
           </div>
         </div>
       </div>
@@ -69,25 +69,25 @@
         <div class="grid">
           <div class="col">
             <label for="zip-origin">Origin ZIP code:</label>
-            <input type="number" id="zip-origin">
+            <input type="number" id="zip-origin" required>
           </div>
           <div class="col">
             <label for="zip-destination">Destination ZIP code:</label>
-            <input type="number" id="zip-destination">
+            <input type="number" id="zip-destination" required>
           </div>
         </div>
       </div>
       <div class="step">
         <div class="confirmation">
-          <h2>Confirm package shipping</h2>
+          <h2>Confirm package shipment</h2>
           <p>
             Having filled all the previous fields,
             you can proceed to the confirmation
-            of your shipping and choosing your
+            of your shipment and choosing your
             best option for it. Feel free to
             review your responses.
           </p>
-          <button>Confirm</button>
+          <button id="confirm-btn" type="button">Confirm</button>
         </div>
       </div>
     </div>
@@ -102,6 +102,7 @@
 <script>
 export default {
   mounted() {
+    // Logic for moving through the form
     let currentPage = 1;
 
     const prevBtn = document.querySelector(".form .footer .prev");
@@ -136,6 +137,40 @@ export default {
       currentPage += 1;
       movePage();
     });
+
+    // Controlling the values of the inputs of the form
+    document.getElementById("confirm-btn").addEventListener("click", () => {
+      // Gather values from inputs
+      const width = document.getElementById("width").value
+      const height = document.getElementById("height").value
+      const depth = document.getElementById("depth").value
+      const weight = document.getElementById("weight").value
+      const zipOrigin = document.getElementById("zip-origin").value
+      const zipDestination = document.getElementById("zip-destination").value
+
+      // Validate inputs
+      if (!width || !height || !depth || !weight || !zipOrigin || !zipDestination) {
+        alert("Please fill out all fields.")
+        return
+      }
+
+      // Log the captured values
+      console.log("Package Details:")
+      console.log(`Width: ${width} cm`)
+      console.log(`Height: ${height} cm`)
+      console.log(`Depth: ${depth} cm`)
+      console.log(`Weight: ${weight} kg`)
+      console.log(`Origin ZIP: ${zipOrigin}`)
+      console.log(`Destination ZIP: ${zipDestination}`)
+
+      // Go to another page
+      this.goToShipment()
+    })
+  },
+  methods: {
+    goToShipment() {
+      this.$router.push('/choose-shipment');
+    },
   },
 };
 </script>
@@ -272,5 +307,12 @@ export default {
   border-radius: 5px;
   cursor: pointer;
   outline: none;
+}
+
+.form .footer button:disabled {
+  background: #ddd;
+  color: #888;
+  cursor: not-allowed;
+  border-color: #ccc;
 }
 </style>
