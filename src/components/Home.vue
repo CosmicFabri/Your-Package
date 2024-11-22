@@ -24,7 +24,7 @@
             1.
           </div>
           <div class="step-descr">
-            Insert source and destination
+            Insert the origin and destination
           </div>
          </div>
   
@@ -61,17 +61,12 @@
   
       <!-- 'Get started!' anchor -->
       <div id="div-started">
-        <a href="" id="get-started">Get started!</a>
+        <router-link to="/send-package" id="get-started">Get started!</router-link>
       </div>
     </body>
   </template>
   
   <script>
-  // Importing the 'Package' module
-  
-  export default {
-    name: 'App'
-  }
   </script>
   
   <style>

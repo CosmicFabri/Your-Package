@@ -1,12 +1,276 @@
 <template>
-    <div>
-      <h1>Send Package</h1>
-      <p>This is the Send Package page.</p>
+<div class="form">
+  <div class="header">
+    <h2>Send a package</h2>
+    <p>
+      In this form, you will be able to
+      fill in all the specifications
+      needed for your package to be delivered.
+      Plase make sure to respond to all fields.
+    </p>
+  </div>
+  <div class="body">
+    <div class="pagination">
+      <div class="number active">1</div>
+      <div class="bar"></div>
+      <div class="number">2</div>
+      <div class="bar"></div>
+      <div class="number">3</div>
+      <div class="bar"></div>
+      <div class="number">4</div>
+      <div class="bar"></div>
     </div>
-  </template>
+    <div class="steps">
+      <div class="step">
+        <h4>Package dimensions</h4>
+        <p>
+          Providing us with your package
+          dimensions will help us search
+          for the best option for you to take.
+        </p>
+        <div class="grid">
+          <div class="col">
+            <label for="width">Width (cm):</label>
+            <input type="number" id="width">
+          </div>
+          <div class="col">
+            <label for="height">Height (cm):</label>
+            <input type="number" id="height">
+          </div>
+          <div class="col">
+            <label for="depth">Depth (cm):</label>
+            <input type="number" id="depth">
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <h4>Package weight</h4>
+        <p>
+          Take into account that, the
+          heavier your package is, the
+          more expensive it could become
+          to ship it.
+        </p>
+        <div class="grid">
+          <div class="col">
+            <label for="weight">Weight (kg):</label>
+            <input type="number" id="weight">
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <h4>ZIP codes</h4>
+        <p>
+          Now that you have provided us with
+          your package weight, we need to know
+          from where the package is being placed
+          and where it is going.
+        </p>
+        <div class="grid">
+          <div class="col">
+            <label for="zip-origin">Origin ZIP code:</label>
+            <input type="number" id="zip-origin">
+          </div>
+          <div class="col">
+            <label for="zip-destination">Destination ZIP code:</label>
+            <input type="number" id="zip-destination">
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="confirmation">
+          <h2>Confirm package shipping</h2>
+          <p>
+            Having filled all the previous fields,
+            you can proceed to the confirmation
+            of your shipping and choosing your
+            best option for it. Feel free to
+            review your responses.
+          </p>
+          <button>Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <button class="prev" disabled>Previous</button>
+    <button class="next">Next</button>
+  </div>
+</div>
+</template>
 
 <script>
+export default {
+  mounted() {
+    let currentPage = 1;
+
+    const prevBtn = document.querySelector(".form .footer .prev");
+    const nextBtn = document.querySelector(".form .footer .next");
+
+    function movePage() {
+      prevBtn.disabled = false;
+      nextBtn.disabled = false;
+
+      if (currentPage === 1) {
+        prevBtn.disabled = true;
+      } else if (currentPage === 4) {
+        nextBtn.disabled = true;
+      }
+
+      document.querySelector(".form .pagination .active").classList.remove("active");
+      document
+        .querySelectorAll(".form .pagination .number")[currentPage - 1]
+        .classList.add("active");
+
+      const stepNode = document.querySelector(".form .steps .step");
+      const width = (currentPage - 1) * stepNode.offsetWidth * -1 + "px";
+      stepNode.parentNode.style.marginLeft = width;
+    }
+
+    prevBtn.addEventListener("click", () => {
+      currentPage -= 1;
+      movePage();
+    });
+
+    nextBtn.addEventListener("click", () => {
+      currentPage += 1;
+      movePage();
+    });
+  },
+};
 </script>
 
 <style>
+.form {
+  width: 98%;
+  max-width: 400px;
+  margin-left: 34%;
+}
+
+.form .header {
+  text-align: center;
+  padding: 20px;
+  display: grid;
+  gap: 5px;
+}
+
+.form .header p {
+  color: #555;
+}
+
+.form .body {
+  box-shadow: 0px 5px 5px 2px rgba(0,0,0,0.2);
+  border-radius: 20px;
+  height: 320px;
+  overflow: hidden;
+}
+
+.form .body .pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 20px;
+}
+
+.form .body .pagination .number {
+  width: 28px;
+  height: 28px;
+  text-align: center;
+  line-height: 28px;
+  border-radius: 50%;
+  background: #00aaee;
+  color: #fff;
+  font-size: 15px;
+}
+
+.form .body .pagination .bar {
+  width: 50px;
+  height: 4px;
+  background: #00aaee;
+  border-radius: 5px;
+}
+
+.form .body .pagination .active ~ div {
+  background: #ddd;
+  color: #111;
+}
+
+.form .steps {
+  width: 400%;
+  display: flex;
+}
+
+.form .steps .step {
+  width: 98vw;
+  max-width: 400px;
+  padding: 5px 15px 15px;
+  overflow: hidden;
+}
+
+.form .steps .step h4 {
+  margin-bottom: 5px;
+}
+
+.form .steps .step p {
+  color: #555;
+  max-width: 90%;
+  font-size: 15px;
+}
+
+.form .steps .step .grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.form .steps .step .col .label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.form .steps .step .col input {
+  width: 80%;
+  padding: 8px;
+  border: 1px solid #bbb;
+  font-size: 15px;
+  border-radius: 8px;
+}
+
+.form .steps .step .confirmation {
+  display: grid;
+  text-align: center;
+  place-items: center;
+  gap: 15px;
+}
+
+.form .steps .step .confirmation button {
+  background: #00aaee;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.form .footer {
+  padding: 5px 0px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.form .footer button {
+  padding: 5px 10px;
+  font-size: 15px;
+  border: 1px solid #bbb;
+  background: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  outline: none;
+}
 </style>
